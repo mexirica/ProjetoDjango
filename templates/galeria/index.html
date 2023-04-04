@@ -19,16 +19,21 @@
                     <div class="cards">
                         <h2 class="cards__titulo">Navegue pela galeria</h2>
                         <ul class="cards__lista">
-                            {% for foto_id, info in cards.items %}
+                            {% if cards %}
+                            {% for dados in cards %}
                             <li class="card">
-                                <a href="{% url 'imagem' %}">
-                                    <img class="card__imagem" src="{% static '/assets/imagens/galeria/carina-nebula.png' %}" alt="foto">
+                                <a href="{% url 'imagem' dados.id %}">
+                                    {% if dados.foto == "" or dados.foto == null%}
+                                    <img class="card__imagem" src="{% static '/assets/imagens/galeria/not-found.png'%}" alt="foto">
+                                    {% else %}
+                                    <img class="card__imagem" src="{{dados.foto.url}}" alt="foto">
+                                    {% endif%}
                                 </a>
                                 <span class="card__tag">Estrelas</span>
                                 <div class="card__info">
-                                    <p class="card__titulo">{{info.nome}}</p>
+                                    <p class="card__titulo">{{dados.nome}}</p>
                                     <div class="card__texto">
-                                        <p class="card__descricao">{{info.legenda}}</p>
+                                        <p class="card__descricao">{{dados.legenda}}</p>
                                         <span>
                                             <img src="{% static '/assets/ícones/1x/favorite_outline.png' %}" alt="ícone de coração">
                                         </span>
@@ -36,6 +41,8 @@
                                 </div>
                             </li>
                             {% endfor %}
+                            {% else %}
+                            {% endif%}
                         </ul>
                     </div>
                 </section>
